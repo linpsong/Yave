@@ -5,3 +5,5 @@
 /Makefile.Debug
 /Makefile.Release
 /Makefile
+build-clang-cl/
+external/

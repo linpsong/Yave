@@ -20,85 +20,66 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstdint>
 #include <cstdlib>
 
-namespace n
-{
+namespace n {
 
+typedef uint8_t byte;
 typedef uint16_t uint16;
 typedef uint32_t uint32;
-typedef size_t uint;
 typedef uint64_t uint64;
-typedef uint8_t byte;
+typedef size_t uint;
 
-template<typename T>
-class TypeInfo
-{
-	public:
-		enum {
-			isPrimitive = false,
-			isPointer = false,
-			isConstant = false
-		};
+template <typename T> class TypeInfo {
+public:
+  enum { isPrimitive = false, isPointer = false, isConstant = false };
 };
 
-template<typename T>
-class TypeInfo<T *>
-{
-	public:
-		enum {
-			isPrimitive = true, // a pointer is a primitive
-			isPointer = true,
-			isConstant = false
-		};
+template <typename T> class TypeInfo<T *> {
+public:
+  enum {
+    isPrimitive = true, // a pointer is a primitive
+    isPointer = true,
+    isConstant = false
+  };
 };
 
-template<typename T>
-class TypeInfo<T const *>
-{
-	public:
-		enum {
-			isPrimitive = true, // a pointer is a primitive
-			isPointer = true,
-			isConstant = true
-		};
+template <typename T> class TypeInfo<T const *> {
+public:
+  enum {
+    isPrimitive = true, // a pointer is a primitive
+    isPointer = true,
+    isConstant = true
+  };
 };
 
-template<typename T>
-class TypeInfo<const T>
-{
-	public:
-		enum {
-			isPrimitive = false,
-			isPointer = false,
-			isConstant = true
-		};
+template <typename T> class TypeInfo<const T> {
+public:
+  enum { isPrimitive = false, isPointer = false, isConstant = true };
 };
 
-#define N_PRIM_TYPE(type) \
-template<> \
-class TypeInfo<type> { public: \
-	enum { isPrimitive = true, isPointer = false, isConstant = false }; \
-}; \
-template<> \
-class TypeInfo<const type> { public: \
-	enum { isPrimitive = true, isPointer = false, isConstant = true }; \
-}
+#define N_PRIM_TYPE(type)                                                      \
+  template <> class TypeInfo<type> {                                           \
+  public:                                                                      \
+    enum { isPrimitive = true, isPointer = false, isConstant = false };        \
+  };                                                                           \
+  template <> class TypeInfo<const type> {                                     \
+  public:                                                                      \
+    enum { isPrimitive = true, isPointer = false, isConstant = true };         \
+  }
 
-
-
-N_PRIM_TYPE(int);
-N_PRIM_TYPE(short int);
-N_PRIM_TYPE(long int);
 N_PRIM_TYPE(bool);
 N_PRIM_TYPE(char);
+N_PRIM_TYPE(short int);
+N_PRIM_TYPE(int);
+N_PRIM_TYPE(long int);
 N_PRIM_TYPE(float);
 N_PRIM_TYPE(double);
-N_PRIM_TYPE(uint);
+// N_PRIM_TYPE(uint);
 N_PRIM_TYPE(byte);
+N_PRIM_TYPE(unsigned short int);
+N_PRIM_TYPE(unsigned int);
 N_PRIM_TYPE(unsigned long int);
 N_PRIM_TYPE(unsigned long long int);
-N_PRIM_TYPE(unsigned short int);
 
-
-} //n
+} // namespace n
 
 #endif // NTYPES_H
